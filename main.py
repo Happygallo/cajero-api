@@ -6,12 +6,32 @@ from models.user_models import UserIn, UserOut
 from models.transaction_models import TransactionIn, TransactionOut
 import datetime
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
+
 
 api = FastAPI()
 
+origins = [
+    "http://localhost",
+    "http://localhost:8081"
+    "https://cajero-app-javier.herokuapp.com"
+]
+
+api.add_middleware(
+    CORSMiddleware,
+    allow_origins = origins,
+    allow_credentials = True,
+    allow_methods = ["*"],
+    allow_headers = ["*"],
+)
+
+
+
+
 @api.get("/")
 async def home():
-    return {"mensaje": "Bienvenido a su cajero automatico"}
+    return {"message": "Bienvenido a su cajero de confianza"}
+
 
 @api.post("/user/auth/")
 async def auth_user(user_in: UserIn):
